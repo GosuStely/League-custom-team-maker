@@ -12,27 +12,27 @@ interface Props {
 }
 
 export default function PlayerRow({ slot, index, winState }: Props) {
-  const rc  = ROLE_CONFIG[slot.role]
+  const rc = ROLE_CONFIG[slot.role]
   const div = DIVISION_CONFIG[slot.division]
 
   const record = getWinRecord(slot.nickname)
-  const total  = record.wins + record.losses
-  const pct    = winRatePct(record)
+  const total = record.wins + record.losses
+  const pct = winRatePct(record)
 
   const badgeClass =
-    slot.assignedAs === 'Main'      ? styles.badgeMain :
-    slot.assignedAs === 'Secondary' ? styles.badgeSecondary :
-                                      styles.badgeAutofill
+    slot.assignedAs === 'Main' ? styles.badgeMain :
+      slot.assignedAs === 'Secondary' ? styles.badgeSecondary :
+        styles.badgeAutofill
 
   const badgeLabel =
     slot.assignedAs === 'Main' ? 'Main' : slot.assignedAs === 'Secondary' ? 'Fill' : 'Auto'
 
   const wrColor =
-    pct === null  ? 'rgba(200,184,150,0.35)' :
-    pct >= 55     ? '#81C784' :
-    pct >= 50     ? '#C8AA6E' :
-    pct >= 45     ? '#FFB74D' :
-                    '#EF9A9A'
+    pct === null ? 'rgba(200,184,150,0.35)' :
+      pct >= 55 ? '#81C784' :
+        pct >= 50 ? '#C8AA6E' :
+          pct >= 45 ? '#FFB74D' :
+            '#EF9A9A'
 
   return (
     <div
@@ -52,7 +52,7 @@ export default function PlayerRow({ slot, index, winState }: Props) {
 
       {total > 0 ? (
         <span className={styles.wrBadge} style={{ color: wrColor, borderColor: `${wrColor}55` }}>
-          {pct}% · {total}G
+          {pct}% · {total}
         </span>
       ) : (
         <span className={styles.wrBadgeEmpty}>—</span>
