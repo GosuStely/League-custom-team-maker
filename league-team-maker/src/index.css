@@ -1,30 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
 
-/* ─── Reset ─── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ─── Root ─── */
 :root {
-  --gold:        #C8AA6E;
-  --gold-dark:   #785A28;
-  --gold-light:  #F0E6D3;
-  --blue:        #64B5F6;
-  --bg:          #080C18;
-  --bg-card:     rgba(18, 26, 44, 0.92);
-  --bg-card-dark:rgba(12, 18, 32, 0.92);
-  --text:        #C8B896;
-  --text-bright: #EAD9BC;
-  --border:      rgba(200, 170, 110, 0.18);
-  --radius:      6px;
+  --gold:         #C8AA6E;
+  --gold-dark:    #785A28;
+  --gold-light:   #F0E6D3;
+  --blue:         #64B5F6;
+  --bg:           #080C18;
+  --bg-card:      rgba(18, 26, 44, 0.92);
+  --bg-card-dark: rgba(12, 18, 32, 0.92);
+  --text:         #C8B896;
+  --text-bright:  #EAD9BC;
+  --border:       rgba(200, 170, 110, 0.18);
+  --radius:       6px;
   font-family: 'Rajdhani', sans-serif;
   color: var(--text);
 }
 
-/* ─── Body / App shell ─── */
 body {
   background: var(--bg);
   min-height: 100vh;
@@ -39,7 +36,6 @@ body {
   position: relative;
 }
 
-/* Subtle grid overlay */
 #root::before {
   content: '';
   position: fixed;
@@ -51,7 +47,6 @@ body {
   z-index: 0;
 }
 
-/* ─── Shared divider ─── */
 .divider {
   width: 360px;
   max-width: 90%;
@@ -73,14 +68,12 @@ body {
 .divider::before { left: 0; }
 .divider::after  { right: 0; }
 
-/* ─── Global focus indicator (AAA) ─── */
 :focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
-/* ─── Screen-reader-only utility ─── */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -93,7 +86,6 @@ body {
   border: 0;
 }
 
-/* ─── Animation helpers ─── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
