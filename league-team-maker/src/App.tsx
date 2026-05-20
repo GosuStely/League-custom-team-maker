@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { Player, Team } from './types'
 import { ROLES, DIVISIONS, PLAYER_COUNT } from './constants/roles'
 import { generateTeams } from './utils/generateTeams'
@@ -29,13 +29,11 @@ export default function App() {
   const [isWorking, setIsWorking] = useState(false)
   const [error, setError] = useState('')
   const [revealKey, setRevealKey] = useState(0)
-  const [playerList, setPlayerList] = useState<string>('')
   const [showTextArea, setShowTextArea] = useState<boolean>(false)
   const [segments, setSegments] = useState<string[]>([])
 
 
   const handlePlayerListChange = (text: string) => {
-    setPlayerList(text)
     const segments = text.split(/joined the lobby/)
     setSegments(segments)
     setPlayers((prev) =>
