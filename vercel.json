@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "league-team-maker/dist",
+  "installCommand": "cd league-team-maker && npm install",
+  "framework": "vite"
+}
