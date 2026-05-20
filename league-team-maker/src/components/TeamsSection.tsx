@@ -11,18 +11,19 @@ interface Props {
 }
 
 export default function TeamsSection({ teams, revealKey, onShuffle }: Props) {
-  const [resultRecorded, setResultRecorded] = useState(false)
+  const [winner, setWinner] = useState<'blue' | 'red' | null>(null)
 
   useEffect(() => {
-    setResultRecorded(false)
+    setWinner(null)
   }, [revealKey])
 
-  function handleResult(winner: 'blue' | 'red') {
+  function handleMarkWinner(side: 'blue' | 'red') {
+    if (winner !== null) return
     const [blue, red] = teams
-    const winners = (winner === 'blue' ? blue : red).map((s) => s.nickname)
-    const losers  = (winner === 'blue' ? red : blue).map((s) => s.nickname)
+    const winners = (side === 'blue' ? blue : red).map((s) => s.nickname)
+    const losers  = (side === 'blue' ? red : blue).map((s) => s.nickname)
     recordResult(winners, losers)
-    setResultRecorded(true)
+    setWinner(side)
   }
 
   return (
@@ -30,30 +31,18 @@ export default function TeamsSection({ teams, revealKey, onShuffle }: Props) {
       <h2 className={styles.heading}>⚔ Teams Assembled ⚔</h2>
       <div className="divider" />
       <div className={styles.grid}>
-        <TeamCard team={teams[0]} side="blue" resultRecorded={resultRecorded} />
-        <TeamCard team={teams[1]} side="red"  resultRecorded={resultRecorded} />
-      </div>
-
-      <div className={styles.resultRow}>
-        {resultRecorded ? (
-          <div className={styles.resultDone}>✓ Result recorded</div>
-        ) : (
-          <>
-            <button
-              className={`${styles.resultBtn} ${styles.resultBtnBlue}`}
-              onClick={() => handleResult('blue')}
-            >
-              🏆 Blue Won
-            </button>
-            <span className={styles.resultVs}>vs</span>
-            <button
-              className={`${styles.resultBtn} ${styles.resultBtnRed}`}
-              onClick={() => handleResult('red')}
-            >
-              🏆 Red Won
-            </button>
-          </>
-        )}
+        <TeamCard
+          team={teams[0]}
+          side="blue"
+          winState={winner === null ? 'pending' : winner === 'blue' ? 'won' : 'lost'}
+          onMarkWinner={() => handleMarkWinner('blue')}
+        />
+        <TeamCard
+          team={teams[1]}
+          side="red"
+          winState={winner === null ? 'pending' : winner === 'red' ? 'won' : 'lost'}
+          onMarkWinner={() => handleMarkWinner('red')}
+        />
       </div>
 
       <button className={styles.shuffleBtn} onClick={onShuffle}>

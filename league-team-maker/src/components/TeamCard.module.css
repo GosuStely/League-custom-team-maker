@@ -1,62 +1,129 @@
 .card {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  transition: box-shadow 0.4s ease, opacity 0.4s ease;
 }
 
 .cardBlue {
-    border: 1px solid rgba(200, 170, 110, 0.35);
-    animation: cardReveal 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s forwards;
+  border: 1px solid rgba(200, 170, 110, 0.35);
+  animation: cardReveal 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s forwards;
 }
 
 .cardRed {
-    border: 1px solid rgba(100, 181, 246, 0.35);
-    animation: cardReveal 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.35s forwards;
+  border: 1px solid rgba(100, 181, 246, 0.35);
+  animation: cardReveal 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.35s forwards;
+}
+
+.cardWon {
+  box-shadow: 0 0 0 2px #C8AA6E, 0 20px 60px rgba(200, 170, 110, 0.35);
+  border-color: rgba(200, 170, 110, 0.8) !important;
+}
+
+.cardLost {
+  opacity: 0.5;
 }
 
 .header {
-    padding: 16px 20px;
-    display:
-        flex;
-    align-items: center;
-    gap: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .headerBlue {
-    background: linear-gradient(135deg, rgba(200, 170, 110, 0.14), rgba(200, 170, 110, 0.04));
-    border-bottom: 1px solid rgba(200, 170, 110, 0.2);
+  background: linear-gradient(135deg, rgba(200, 170, 110, 0.14), rgba(200, 170, 110, 0.04));
+  border-bottom: 1px solid rgba(200, 170, 110, 0.2);
 }
 
 .headerRed {
-    background: linear-gradient(135deg, rgba(100, 181, 246, 0.14), rgba(100, 181, 246, 0.04));
-    border-bottom: 1px solid rgba(100, 181, 246, 0.2);
+  background: linear-gradient(135deg, rgba(100, 181, 246, 0.14), rgba(100, 181, 246, 0.04));
+  border-bottom: 1px solid rgba(100, 181, 246, 0.2);
 }
 
 .teamIcon {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .teamName {
-    font-family: 'Cinzel', serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-bright);
-    flex: 1;
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-bright);
+  flex: 1;
 }
 
 .avgBadge {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.winBtn {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.2s;
+}
+
+.winBtnBlue {
+  background: rgba(200, 170, 110, 0.1);
+  border-color: rgba(200, 170, 110, 0.4);
+  color: #C8AA6E;
+}
+
+.winBtnBlue:hover {
+  background: rgba(200, 170, 110, 0.22);
+  border-color: #C8AA6E;
+  box-shadow: 0 0 14px rgba(200, 170, 110, 0.3);
+}
+
+.winBtnRed {
+  background: rgba(100, 181, 246, 0.1);
+  border-color: rgba(100, 181, 246, 0.4);
+  color: #64B5F6;
+}
+
+.winBtnRed:hover {
+  background: rgba(100, 181, 246, 0.22);
+  border-color: #64B5F6;
+  box-shadow: 0 0 14px rgba(100, 181, 246, 0.3);
+}
+
+.wonLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #C8AA6E;
+  flex-shrink: 0;
+}
+
+.lostLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200, 184, 150, 0.3);
+  flex-shrink: 0;
 }
 
 .body {
-    background: rgba(10, 14, 24, 0.9);
+  background: rgba(10, 14, 24, 0.9);
 }

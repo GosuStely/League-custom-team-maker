@@ -3,13 +3,15 @@ import { ROLE_CONFIG, DIVISION_CONFIG } from '../constants/roles'
 import { getWinRecord, winRatePct } from '../utils/winTracker'
 import styles from './PlayerRow.module.css'
 
+type WinState = 'pending' | 'won' | 'lost'
+
 interface Props {
   slot: TeamSlot
   index: number
-  resultRecorded?: boolean
+  winState?: WinState
 }
 
-export default function PlayerRow({ slot, index, resultRecorded: _resultRecorded }: Props) {
+export default function PlayerRow({ slot, index, winState }: Props) {
   const rc  = ROLE_CONFIG[slot.role]
   const div = DIVISION_CONFIG[slot.division]
 
@@ -33,7 +35,10 @@ export default function PlayerRow({ slot, index, resultRecorded: _resultRecorded
                     '#EF9A9A'
 
   return (
-    <div className={styles.row} style={{ animationDelay: `${0.2 + index * 0.09}s` }}>
+    <div
+      className={`${styles.row} ${winState === 'won' ? styles.rowWon : ''}`}
+      style={{ animationDelay: `${0.2 + index * 0.09}s` }}
+    >
 
       <div
         className={styles.roleBadge}

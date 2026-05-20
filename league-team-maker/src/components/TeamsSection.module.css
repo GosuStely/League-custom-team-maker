@@ -27,73 +27,9 @@
   }
 }
 
-.resultRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 24px;
-  opacity: 0;
-  animation: fadeUp 0.4s ease 0.6s forwards;
-}
-
-.resultBtn {
-  padding: 10px 26px;
-  border-radius: 4px;
-  font-family: 'Cinzel', serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  border: 1px solid;
-  transition: all 0.22s;
-}
-
-.resultBtnBlue {
-  background: rgba(200, 170, 110, 0.08);
-  border-color: rgba(200, 170, 110, 0.4);
-  color: #C8AA6E;
-}
-
-.resultBtnBlue:hover {
-  background: rgba(200, 170, 110, 0.18);
-  border-color: #C8AA6E;
-  box-shadow: 0 0 18px rgba(200, 170, 110, 0.25);
-}
-
-.resultBtnRed {
-  background: rgba(207, 102, 121, 0.08);
-  border-color: rgba(207, 102, 121, 0.4);
-  color: #CF6679;
-}
-
-.resultBtnRed:hover {
-  background: rgba(207, 102, 121, 0.18);
-  border-color: #CF6679;
-  box-shadow: 0 0 18px rgba(207, 102, 121, 0.25);
-}
-
-.resultVs {
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: rgba(200, 170, 110, 0.3);
-  text-transform: uppercase;
-}
-
-.resultDone {
-  font-family: 'Cinzel', serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #81C784;
-}
-
 .shuffleBtn {
   display: block;
-  margin: 20px auto 0;
+  margin: 28px auto 0;
   background: transparent;
   border: 1px solid rgba(200, 170, 110, 0.65);
   border-radius: 4px;
