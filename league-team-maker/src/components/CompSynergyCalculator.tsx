@@ -14,8 +14,6 @@ import {
 } from '../utils/synergyCalc'
 import styles from './CompSynergyCalculator.module.css'
 
-// ── Champion slot (searchable dropdown) ─────────────────────────────────────
-
 interface SlotProps {
   role: Role
   champion: Champion | null
@@ -37,7 +35,6 @@ function ChampionSlot({ role, champion, onSelect, onClear }: SlotProps) {
     return list.filter((c) => c.name.toLowerCase().includes(q))
   }, [role, query])
 
-  // close on outside click
   useEffect(() => {
     if (!open) return
     function handler(e: MouseEvent) {
@@ -70,13 +67,11 @@ function ChampionSlot({ role, champion, onSelect, onClear }: SlotProps) {
 
   return (
     <div className={styles.slot} ref={containerRef}>
-      {/* Role label */}
       <div className={styles.roleTag} style={{ background: rc.bg, borderColor: `${rc.color}55`, color: rc.color }}>
         <span>{rc.icon}</span>
         <span>{rc.label}</span>
       </div>
 
-      {/* Trigger / selected champion */}
       {champion ? (
         <div className={styles.selectedChamp}>
           <span className={styles.champName}>{champion.name}</span>
@@ -94,7 +89,6 @@ function ChampionSlot({ role, champion, onSelect, onClear }: SlotProps) {
         </button>
       )}
 
-      {/* Dropdown */}
       {open && (
         <div className={styles.dropdown}>
           <input
@@ -129,8 +123,6 @@ function ChampionSlot({ role, champion, onSelect, onClear }: SlotProps) {
   )
 }
 
-// ── Synergy panel ────────────────────────────────────────────────────────────
-
 interface SynergyPanelProps {
   result: SynergyResult
   side: 'blue' | 'red'
@@ -155,7 +147,6 @@ function SynergyPanel({ result, side }: SynergyPanelProps) {
 
   return (
     <div className={styles.synergyPanel}>
-      {/* Score row */}
       <div className={styles.scoreRow}>
         <div className={styles.scoreCircle} style={{ borderColor: gColor, boxShadow: `0 0 14px ${gColor}44` }}>
           <span className={styles.scoreNum} style={{ color: gColor }}>{result.score}</span>
@@ -177,7 +168,6 @@ function SynergyPanel({ result, side }: SynergyPanelProps) {
         </div>
       </div>
 
-      {/* Score progress bar */}
       <div className={styles.scoreBarWrap}>
         <div
           className={styles.scoreBarFill}
@@ -185,7 +175,6 @@ function SynergyPanel({ result, side }: SynergyPanelProps) {
         />
       </div>
 
-      {/* Breakdown bars */}
       <div className={styles.breakdownList}>
         {bars.map(({ label, value, max }) => (
           <div key={label} className={styles.breakdownRow}>
@@ -205,15 +194,12 @@ function SynergyPanel({ result, side }: SynergyPanelProps) {
         ))}
       </div>
 
-      {/* Slot fill indicator */}
       {result.filledSlots < 5 && (
         <div className={styles.fillHint}>{result.filledSlots}/5 champions selected</div>
       )}
     </div>
   )
 }
-
-// ── Win probability bar ──────────────────────────────────────────────────────
 
 interface WinBarProps {
   blueResult: SynergyResult
@@ -230,25 +216,22 @@ function WinBar({ blueResult, redResult }: WinBarProps) {
     <div className={styles.winSection}>
       <div className={styles.winTitle}>Win Probability</div>
 
-      {/* Bar */}
       <div className={styles.winBarOuter}>
         <div className={styles.winBarBlue}  style={{ flex: win.blue }} />
         <div className={styles.winBarRed}   style={{ flex: win.red }} />
       </div>
 
-      {/* Labels */}
       <div className={styles.winLabels}>
         <span className={styles.winLabelBlue}>🔵 {win.blue}%</span>
         <span className={styles.winLabelRed}>{win.red}% 🔴</span>
       </div>
 
-      {/* Factors */}
       {win.factors.length > 0 && (
         <div className={styles.factorList}>
           {win.factors.map((f) => {
-            const fav     = f.delta > 0 ? 'blue' : f.delta < 0 ? 'red' : 'neutral'
-            const valStr  = f.delta > 0 ? `+${f.delta}%` : `${f.delta}%`
-            const color   = fav === 'blue' ? '#C8AA6E' : fav === 'red' ? '#CF6679' : '#888'
+            const fav    = f.delta > 0 ? 'blue' : f.delta < 0 ? 'red' : 'neutral'
+            const valStr = f.delta > 0 ? `+${f.delta}%` : `${f.delta}%`
+            const color  = fav === 'blue' ? '#C8AA6E' : fav === 'red' ? '#CF6679' : '#888'
             return (
               <div key={f.label} className={styles.factorRow}>
                 <span className={styles.factorLabel}>{f.label}</span>
@@ -263,8 +246,6 @@ function WinBar({ blueResult, redResult }: WinBarProps) {
     </div>
   )
 }
-
-// ── Main component ────────────────────────────────────────────────────────────
 
 type TeamState = TeamComp
 
@@ -297,7 +278,6 @@ export default function CompSynergyCalculator() {
     if (side === 'blue') setBuildingBlue(true)
     else                 setBuildingRed(true)
 
-    // Defer heavy computation one frame so the spinner renders first
     setTimeout(() => {
       const result = generateProTeam(current, blacklist)
       if (side === 'blue') { setBlueTeam(result as TeamState); setBuildingBlue(false) }
@@ -313,7 +293,6 @@ export default function CompSynergyCalculator() {
   return (
     <div className={styles.calculator}>
 
-      {/* Header */}
       <div className={styles.header}>
         <span className={styles.headerIcon}>⚗️</span>
         <h2 className={styles.headerTitle}>Comp Synergy Calculator</h2>
@@ -321,10 +300,8 @@ export default function CompSynergyCalculator() {
         <div className="divider" />
       </div>
 
-      {/* Teams grid */}
       <div className={styles.teamsGrid}>
 
-        {/* Blue team */}
         <div className={styles.teamColumn}>
           <div className={`${styles.teamHeader} ${styles.teamHeaderBlue}`}>
             <span>🔵</span>
@@ -354,12 +331,10 @@ export default function CompSynergyCalculator() {
           <SynergyPanel result={blueSynergy} side="blue" />
         </div>
 
-        {/* VS divider */}
         <div className={styles.vsCol}>
           <div className={styles.vsText}>VS</div>
         </div>
 
-        {/* Red team */}
         <div className={styles.teamColumn}>
           <div className={`${styles.teamHeader} ${styles.teamHeaderRed}`}>
             <span>🔴</span>
@@ -391,10 +366,8 @@ export default function CompSynergyCalculator() {
 
       </div>
 
-      {/* Win probability */}
       <WinBar blueResult={blueSynergy} redResult={redSynergy} />
 
-      {/* Reset */}
       <div className={styles.resetRow}>
         <button className={styles.resetBtn} onClick={resetAll}>
           🗑 Reset All

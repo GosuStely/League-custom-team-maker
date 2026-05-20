@@ -6,11 +6,11 @@ import { getChampionsForRole, findChampion } from '../data/champions'
 export type TeamComp = Partial<Record<Role, Champion | null>>
 
 export interface SynergyBreakdown {
-  damageBalance: number   // 0–30
-  cc: number              // 0–20
-  frontline: number       // 0–20
-  compCohesion: number    // 0–20
-  comboPotential: number  // 0–10
+  damageBalance: number
+  cc: number
+  frontline: number
+  compCohesion: number
+  comboPotential: number
 }
 
 export interface SynergyResult {
@@ -26,7 +26,7 @@ export interface SynergyResult {
 
 export interface WinFactor {
   label: string
-  delta: number   // positive = favors blue, negative = favors red
+  delta: number
 }
 
 export interface WinProbResult {
@@ -35,7 +35,6 @@ export interface WinProbResult {
   factors: WinFactor[]
 }
 
-// ── Known strong synergy pairs ──────────────────────────────────────────────
 const SYNERGY_PAIRS: Array<{ champs: string[]; bonus: number; label: string }> = [
   { champs: ['Orianna', 'Malphite'],      bonus: 20, label: 'Ball Delivery' },
   { champs: ['Orianna', 'Amumu'],         bonus: 20, label: 'Ball Delivery' },
@@ -69,7 +68,6 @@ const SYNERGY_PAIRS: Array<{ champs: string[]; bonus: number; label: string }> =
   { champs: ['Hecarim', 'Orianna'],       bonus: 16, label: 'Ball Delivery' },
 ]
 
-// ── Comp archetype counters ──────────────────────────────────────────────────
 const COMP_COUNTERS: Record<string, string[]> = {
   'Poke Siege':        ['Engage Heavy', 'Wombo Combo', 'Engage + AOE'],
   'Engage Heavy':      ['Poke Siege', 'Protect the Carry'],
@@ -81,7 +79,6 @@ const COMP_COUNTERS: Record<string, string[]> = {
   'Burst Heavy':       ['Sustain Poke'],
 }
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
 function countTrait(comp: TeamComp, trait: ChampTrait): number {
   return Object.values(comp).filter((c) => c?.traits.includes(trait)).length
 }
@@ -107,19 +104,18 @@ function getDamageTypes(comp: TeamComp): { magic: number; physical: number } {
 }
 
 function detectComp(comp: TeamComp): { comp: string; label?: string } {
-  const engage    = countTrait(comp, 'engage')
-  const poke      = countTrait(comp, 'poke')
-  const aoe       = countTrait(comp, 'aoe')
-  const peel      = countTrait(comp, 'peel') + countTrait(comp, 'shield') + countTrait(comp, 'heal')
+  const engage     = countTrait(comp, 'engage')
+  const poke       = countTrait(comp, 'poke')
+  const aoe        = countTrait(comp, 'aoe')
+  const peel       = countTrait(comp, 'peel') + countTrait(comp, 'shield') + countTrait(comp, 'heal')
   const hypercarry = countTrait(comp, 'hypercarry')
-  const dive      = countTrait(comp, 'dive') + countTrait(comp, 'assassin')
-  const sustain   = countTrait(comp, 'sustain') + countTrait(comp, 'heal')
-  const burst     = countTrait(comp, 'burst')
-  const teamfight = countTrait(comp, 'teamfight')
+  const dive       = countTrait(comp, 'dive') + countTrait(comp, 'assassin')
+  const sustain    = countTrait(comp, 'sustain') + countTrait(comp, 'heal')
+  const burst      = countTrait(comp, 'burst')
+  const teamfight  = countTrait(comp, 'teamfight')
 
   const champNames = names(comp)
 
-  // Check for specific wombo pairs first
   const wombo = SYNERGY_PAIRS.find(
     (p) => p.label === 'Wombo Combo' && p.champs.every((n) => champNames.includes(n)),
   )
@@ -146,7 +142,6 @@ function getGrade(score: number): string {
   return 'D'
 }
 
-// ── Main synergy calculation ─────────────────────────────────────────────────
 export function calculateTeamSynergy(comp: TeamComp): SynergyResult {
   const filled = Object.values(comp).filter(Boolean).length
 
@@ -160,52 +155,45 @@ export function calculateTeamSynergy(comp: TeamComp): SynergyResult {
 
   const dt = getDamageTypes(comp)
 
-  // 1. Damage balance (0–30)
   let damageBalance = 0
   if (dt.magic >= 2 && dt.physical >= 2)      damageBalance = 30
   else if (dt.magic >= 1 && dt.physical >= 1) damageBalance = 18
   else                                         damageBalance = 5
 
-  // 2. CC rating (0–20)
   const ccCount = countTrait(comp, 'cc')
   const ccScore = Math.min(ccCount * 5, 20)
 
-  // 3. Frontline (0–20): tank + engage + bruiser (max 2 bruisers counted)
   const frontlineCount =
     countTrait(comp, 'tank') +
     countTrait(comp, 'engage') +
     Math.min(countTrait(comp, 'bruiser'), 2)
   const frontlineScore = Math.min(frontlineCount * 3, 20)
 
-  // 4. Comp cohesion (0–20)
-  const engage    = countTrait(comp, 'engage')
-  const poke      = countTrait(comp, 'poke')
-  const peel      = countTrait(comp, 'peel') + countTrait(comp, 'shield') + countTrait(comp, 'heal')
+  const engage     = countTrait(comp, 'engage')
+  const poke       = countTrait(comp, 'poke')
+  const peel       = countTrait(comp, 'peel') + countTrait(comp, 'shield') + countTrait(comp, 'heal')
   const hypercarry = countTrait(comp, 'hypercarry')
-  const dive      = countTrait(comp, 'dive') + countTrait(comp, 'assassin')
-  const teamfight = countTrait(comp, 'teamfight')
-  const sustain   = countTrait(comp, 'sustain') + countTrait(comp, 'heal')
-  const aoe       = countTrait(comp, 'aoe')
+  const dive       = countTrait(comp, 'dive') + countTrait(comp, 'assassin')
+  const teamfight  = countTrait(comp, 'teamfight')
+  const sustain    = countTrait(comp, 'sustain') + countTrait(comp, 'heal')
+  const aoe        = countTrait(comp, 'aoe')
 
   let compCohesion = 0
-  if (engage >= 2 && teamfight >= 3)             compCohesion = 20
-  else if (hypercarry >= 1 && peel >= 3)         compCohesion = 20
-  else if (hypercarry >= 1 && peel >= 2)         compCohesion = 16
-  else if (poke >= 3)                            compCohesion = 17
-  else if (engage >= 2 && aoe >= 2)             compCohesion = 18
-  else if (dive >= 3)                            compCohesion = 15
-  else if (teamfight >= 3)                       compCohesion = 13
-  else if (sustain >= 2 && poke >= 1)            compCohesion = 12
-  else                                           compCohesion = 7
+  if (engage >= 2 && teamfight >= 3)     compCohesion = 20
+  else if (hypercarry >= 1 && peel >= 3) compCohesion = 20
+  else if (hypercarry >= 1 && peel >= 2) compCohesion = 16
+  else if (poke >= 3)                    compCohesion = 17
+  else if (engage >= 2 && aoe >= 2)      compCohesion = 18
+  else if (dive >= 3)                    compCohesion = 15
+  else if (teamfight >= 3)               compCohesion = 13
+  else if (sustain >= 2 && poke >= 1)    compCohesion = 12
+  else                                   compCohesion = 7
 
-  // 5. Combo potential (0–10)
   let comboPotential = 0
   let comboLabel: string | undefined
 
-  // engage + aoe base bonus
   if (engage >= 1 && aoe >= 1) comboPotential += 4
 
-  // specific pair bonus (use the highest)
   const champNames = names(comp)
   let bestPairBonus = 0
   for (const pair of SYNERGY_PAIRS) {
@@ -214,14 +202,12 @@ export function calculateTeamSynergy(comp: TeamComp): SynergyResult {
       comboLabel = pair.label
     }
   }
-  // convert pair bonus to 0–6 extra points
   if (bestPairBonus > 0) {
     comboPotential += Math.min(Math.round(bestPairBonus / 4), 6)
   }
   comboPotential = Math.min(comboPotential, 10)
 
-  const raw = damageBalance + ccScore + frontlineScore + compCohesion + comboPotential
-  // Scale slightly: raw max is 100, but typical filled teams score 50-85 range
+  const raw   = damageBalance + ccScore + frontlineScore + compCohesion + comboPotential
   const score = Math.min(Math.round(raw), 100)
 
   const { comp: detectedComp } = detectComp(comp)
@@ -238,40 +224,32 @@ export function calculateTeamSynergy(comp: TeamComp): SynergyResult {
   }
 }
 
-// ── Win probability ──────────────────────────────────────────────────────────
 export function calculateWinProb(
   blueResult: SynergyResult,
   redResult:  SynergyResult,
 ): WinProbResult {
   const factors: WinFactor[] = []
 
-  // 1. Synergy score gap (±0.15 per point, max ±15%)
-  const scoreDiff   = blueResult.score - redResult.score
+  const scoreDiff    = blueResult.score - redResult.score
   const synergyDelta = Math.max(-15, Math.min(15, Math.round(scoreDiff * 0.15)))
   factors.push({ label: 'Synergy Score', delta: synergyDelta })
 
-  // 2. Comp archetype matchup (±8%)
-  const blueCompRaw = blueResult.detectedComp
-  const redCompRaw  = redResult.detectedComp
+  const blueCompRaw  = blueResult.detectedComp
+  const redCompRaw   = redResult.detectedComp
   const blueCounters = (COMP_COUNTERS[blueCompRaw] ?? []).includes(redCompRaw)
   const redCounters  = (COMP_COUNTERS[redCompRaw]  ?? []).includes(blueCompRaw)
-  const compDelta = blueCounters ? 8 : redCounters ? -8 : 0
+  const compDelta    = blueCounters ? 8 : redCounters ? -8 : 0
   if (compDelta !== 0) {
     factors.push({ label: 'Comp Matchup', delta: compDelta })
   }
 
-  // 3. Damage variety advantage (±4%)
-  const blueBal = Math.min(blueResult.damageTypes.magic, blueResult.damageTypes.physical)
-  const redBal  = Math.min(redResult.damageTypes.magic,  redResult.damageTypes.physical)
+  const blueBal  = Math.min(blueResult.damageTypes.magic, blueResult.damageTypes.physical)
+  const redBal   = Math.min(redResult.damageTypes.magic,  redResult.damageTypes.physical)
   const dmgDelta = Math.max(-4, Math.min(4, (blueBal - redBal) * 2))
   if (Math.abs(dmgDelta) >= 2) {
     factors.push({ label: 'Damage Variety', delta: dmgDelta })
   }
 
-  // 4. CC advantage (±5%)
-  const blueCCCount = blueResult.allTraits.filter((t) => t === 'cc').length
-  const redCCCount  = redResult.allTraits.filter((t) => t === 'cc').length
-  // allTraits is a set so won't give multi-count — use the breakdown scores instead
   const blueCCScore = blueResult.breakdown.cc
   const redCCScore  = redResult.breakdown.cc
   const ccDelta     = Math.max(-5, Math.min(5, Math.round((blueCCScore - redCCScore) * 0.25)))
@@ -314,46 +292,39 @@ export function compIcon(comp: string): string {
   }
 }
 
-// ── Pro Team Generator ───────────────────────────────────────────────────────
-// Curated high-synergy meta picks per role used as the candidate pool.
 const META_POOL: Record<Role, string[]> = {
   Top: [
-    "K'Sante", 'Malphite', 'Ornn', 'Sion', 'Maokai',          // tanks / engage
-    'Aatrox', 'Renekton', 'Sett', 'Darius', 'Urgot',           // bruisers
-    'Camille', 'Jax', 'Gnar', 'Kennen', 'Rumble',              // carries / flex
+    "K'Sante", 'Malphite', 'Ornn', 'Sion', 'Maokai',
+    'Aatrox', 'Renekton', 'Sett', 'Darius', 'Urgot',
+    'Camille', 'Jax', 'Gnar', 'Kennen', 'Rumble',
     'Gangplank', 'Jayce', 'Fiora', 'Wukong', 'Gragas',
   ],
   Jungle: [
-    'Amumu', 'Sejuani', 'Zac', 'Jarvan IV', 'Hecarim',         // engage
-    'Lee Sin', 'Vi', 'Rek\'Sai', 'Xin Zhao', 'Vi',             // dive
-    'Graves', 'Viego', 'Kha\'Zix', 'Bel\'Veth', 'Nidalee',    // carries
+    'Amumu', 'Sejuani', 'Zac', 'Jarvan IV', 'Hecarim',
+    "Lee Sin", 'Vi', "Rek'Sai", 'Xin Zhao', 'Vi',
+    "Graves", "Viego", "Kha'Zix", "Bel'Veth", 'Nidalee',
     'Nocturne', 'Taliyah', 'Diana', 'Kindred', 'Nunu & Willump',
   ],
   Mid: [
-    'Orianna', 'Viktor', 'Azir', 'Aurelion Sol', 'Cassiopeia', // teamfight mages
-    'Syndra', 'Lissandra', 'Vex', 'Twisted Fate', 'Ryze',      // utility mages
-    'Ahri', 'LeBlanc', 'Zed', 'Akali', 'Kassadin',             // assassins
-    'Yasuo', 'Yone', 'Irelia', 'Sylas', 'Ekko',                // skirmishers
+    'Orianna', 'Viktor', 'Azir', 'Aurelion Sol', 'Cassiopeia',
+    'Syndra', 'Lissandra', 'Vex', 'Twisted Fate', 'Ryze',
+    'Ahri', 'LeBlanc', 'Zed', 'Akali', 'Kassadin',
+    'Yasuo', 'Yone', 'Irelia', 'Sylas', 'Ekko',
   ],
   ADC: [
-    'Jinx', 'Caitlyn', 'Jhin', 'Miss Fortune', 'Aphelios',     // teamfight / poke
-    "Kai'Sa", 'Xayah', 'Zeri', 'Tristana', 'Samira',           // mobile carries
-    'Ashe', 'Varus', 'Sivir', "Kog'Maw", 'Draven',             // utility / burst
+    'Jinx', 'Caitlyn', 'Jhin', 'Miss Fortune', 'Aphelios',
+    "Kai'Sa", 'Xayah', 'Zeri', 'Tristana', 'Samira',
+    'Ashe', 'Varus', 'Sivir', "Kog'Maw", 'Draven',
     'Twitch', 'Lucian', 'Ezreal', 'Vayne', 'Nilah',
   ],
   Support: [
-    'Thresh', 'Nautilus', 'Leona', 'Rell', 'Alistar',          // engage
-    'Lulu', 'Nami', 'Soraka', 'Janna', 'Milio',                // protect / heal
-    'Renata Glasc', 'Sona', 'Karma', 'Bard', 'Seraphine',      // utility
+    'Thresh', 'Nautilus', 'Leona', 'Rell', 'Alistar',
+    'Lulu', 'Nami', 'Soraka', 'Janna', 'Milio',
+    'Renata Glasc', 'Sona', 'Karma', 'Bard', 'Seraphine',
     'Taric', 'Blitzcrank', 'Pyke', 'Shen', 'Zilean',
   ],
 }
 
-/**
- * Fill empty role slots with the best-synergy meta picks.
- * Keeps any champions already selected; avoids `blacklist` (the other team's picks).
- * Runs `iterations` random trials and returns the highest-scoring full comp.
- */
 export function generateProTeam(
   currentComp: TeamComp,
   blacklist: string[] = [],
@@ -362,13 +333,11 @@ export function generateProTeam(
   const emptyRoles = ROLES.filter((r) => !currentComp[r])
   if (emptyRoles.length === 0) return currentComp
 
-  // Filter blacklist and already-used names from the pool
   const usedNames = Object.values(currentComp)
     .filter(Boolean)
     .map((c) => c!.name)
   const excluded = new Set([...blacklist, ...usedNames])
 
-  // Per-role candidate arrays (meta picks not excluded; fallback to all role champs)
   const candidatesByRole: Record<string, Champion[]> = {}
   for (const role of emptyRoles) {
     const metaFiltered = META_POOL[role]
@@ -387,9 +356,7 @@ export function generateProTeam(
 
   for (let i = 0; i < iterations; i++) {
     const trial: TeamComp = { ...currentComp }
-
-    // Track picks chosen this iteration to avoid duplicates across roles
-    const pickedThisRun = new Set<string>()
+    const pickedThisRun   = new Set<string>()
 
     for (const role of emptyRoles) {
       const pool = candidatesByRole[role].filter((c) => !pickedThisRun.has(c.name))
@@ -402,7 +369,7 @@ export function generateProTeam(
     const score = calculateTeamSynergy(trial).score
     if (score > bestScore) {
       bestScore = score
-      bestComp = { ...trial }
+      bestComp  = { ...trial }
     }
   }
 

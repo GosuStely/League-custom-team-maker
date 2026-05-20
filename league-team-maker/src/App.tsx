@@ -18,7 +18,7 @@ function createInitialPlayers(): Player[] {
     nickname: '',
     mainRole: ROLES[i % 5],
     secondaryRole: ROLES[(i + 2) % 5],
-    division: DIVISIONS[3], // Gold as default
+    division: DIVISIONS[3],
   }))
 }
 
@@ -103,7 +103,6 @@ export default function App() {
       <div className={styles.content}>
         <Header />
 
-        {/* Tab switcher */}
         <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${activeTab === 'team-maker' ? styles.tabActive : ''}`}

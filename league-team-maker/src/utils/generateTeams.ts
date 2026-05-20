@@ -5,18 +5,6 @@ function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5)
 }
 
-/**
- * Assigns 10 players into two balanced 5v5 teams.
- *
- * Phase 1 — Role assignment (3 passes):
- *   Pass 1: fill each role with players whose mainRole matches
- *   Pass 2: fill remaining gaps with players whose secondaryRole matches
- *   Pass 3: autofill any leftover players into open slots
- *
- * Phase 2 — Rank balancing (greedy snake-draft):
- *   For each role's two candidates, the stronger player goes to
- *   whichever team currently has the lower cumulative rank score.
- */
 export function generateTeams(players: Player[]): [Team, Team] {
   const shuffled = shuffle(players)
   const assigned = new Set<number>()
@@ -57,7 +45,6 @@ export function generateTeams(players: Player[]): [Team, Team] {
     }
   }
 
-  // Phase 2: greedy snake-draft to balance total rank score
   const team1: Team = []
   const team2: Team = []
   let score1 = 0
@@ -86,7 +73,6 @@ export function generateTeams(players: Player[]): [Team, Team] {
   return [team1, team2]
 }
 
-/** Average division score for a team (used to display ~rank label). */
 export function teamAvgScore(team: Team): number {
   const total = team.reduce((sum, s) => sum + DIVISION_CONFIG[s.division].score, 0)
   return Math.round((total / team.length) * 10) / 10
