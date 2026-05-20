@@ -1,0 +1,83 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideInLeft 0.4s ease forwards;
+  transition: background 0.2s;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.roleBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  min-width: 98px;
+  flex-shrink: 0;
+}
+
+.name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-bright);
+  letter-spacing: 0.4px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.divBadge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge {
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  border: 1px solid;
+}
+
+.badgeMain {
+  background: rgba(76, 175, 80, 0.2);
+  color: #81C784;
+  border-color: rgba(76, 175, 80, 0.35);
+}
+
+.badgeSecondary {
+  background: rgba(255, 193, 7, 0.2);
+  color: #FFD54F;
+  border-color: rgba(255, 193, 7, 0.35);
+}
+
+.badgeAutofill {
+  background: rgba(244, 67, 54, 0.2);
+  color: #EF9A9A;
+  border-color: rgba(244, 67, 54, 0.35);
+}

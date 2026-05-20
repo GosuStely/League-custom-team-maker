@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Root ─── */
+:root {
+  --gold:        #C8AA6E;
+  --gold-dark:   #785A28;
+  --gold-light:  #F0E6D3;
+  --blue:        #64B5F6;
+  --bg:          #080C18;
+  --bg-card:     rgba(18, 26, 44, 0.92);
+  --bg-card-dark:rgba(12, 18, 32, 0.92);
+  --text:        #C8B896;
+  --text-bright: #EAD9BC;
+  --border:      rgba(200, 170, 110, 0.18);
+  --radius:      6px;
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--text);
+}
+
+/* ─── Body / App shell ─── */
+body {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 15% 15%, rgba(200,170,110,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(100,181,246,0.06) 0%, transparent 55%),
+    linear-gradient(160deg, #080C18 0%, #0D1628 60%, #080C18 100%);
+  position: relative;
+}
+
+/* Subtle grid overlay */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg,   transparent, transparent 60px, rgba(200,170,110,0.018) 61px),
+    repeating-linear-gradient(90deg,  transparent, transparent 60px, rgba(200,170,110,0.018) 61px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Shared divider ─── */
+.divider {
+  width: 360px;
+  max-width: 90%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+  margin: 0 auto;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  font-size: 8px;
+}
+.divider::before { left: 0; }
+.divider::after  { right: 0; }
+
+/* ─── Global focus indicator (AAA) ─── */
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ─── Screen-reader-only utility ─── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Animation helpers ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: scale(0.88) translateY(24px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmerTitle {
+  0%   { background-position: 0%   center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes floatCrown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 0 24px rgba(200,170,110,0.28), inset 0 1px 0 rgba(255,255,255,0.22); }
+  50%       { box-shadow: 0 0 52px rgba(200,170,110,0.62), 0 0 90px rgba(200,170,110,0.18), inset 0 1px 0 rgba(255,255,255,0.22); }
+}

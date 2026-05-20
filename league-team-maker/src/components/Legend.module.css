@@ -1,0 +1,45 @@
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    /* #C8B896 on dark bg ≈ 9:1 — AAA ✓ */
+    color: #C8B896;
+    letter-spacing: 0.5px;
+}
+
+.badge {
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid;
+}
+
+.main {
+    background: rgba(76, 175, 80, 0.2);
+    color: #81C784;
+    border-color: rgba(76, 175, 80, 0.35);
+}
+
+.secondary {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFD54F;
+    border-color: rgba(255, 193, 7, 0.35);
+}
+
+.autofill {
+    background: rgba(244, 67, 54, 0.2);
+    color: #EF9A9A;
+    border-color: rgba(244, 67, 54, 0.35);
+}

@@ -1,0 +1,646 @@
+/* ── Layout ── */
+.calculator {
+  padding-bottom: 60px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.headerIcon {
+  display: block;
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+
+.headerTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(20px, 4vw, 36px);
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #785A28 0%, #C8AA6E 35%, #F0E6D3 50%, #C8AA6E 65%, #785A28 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerTitle 4s linear infinite;
+}
+
+.headerSub {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #785A28;
+}
+
+/* ── Teams grid ── */
+.teamsGrid {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  gap: 0;
+  align-items: start;
+  margin-top: 28px;
+}
+
+@media (max-width: 800px) {
+  .teamsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .vsCol {
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* ── Team column ── */
+.teamColumn {
+  background: linear-gradient(160deg, rgba(18, 26, 44, 0.92), rgba(10, 14, 24, 0.95));
+  border: 1px solid rgba(200, 170, 110, 0.14);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.teamHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.teamName {
+  flex: 1;
+}
+
+/* ── Pro Comp button ── */
+.proBtn {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.22s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.proBtnBlue {
+  background: rgba(200, 170, 110, 0.1);
+  border-color: rgba(200, 170, 110, 0.45);
+  color: #C8AA6E;
+}
+
+.proBtnBlue:not(:disabled):hover {
+  background: rgba(200, 170, 110, 0.2);
+  border-color: #C8AA6E;
+  box-shadow: 0 0 16px rgba(200, 170, 110, 0.3);
+}
+
+.proBtnRed {
+  background: rgba(207, 102, 121, 0.1);
+  border-color: rgba(207, 102, 121, 0.45);
+  color: #CF6679;
+}
+
+.proBtnRed:not(:disabled):hover {
+  background: rgba(207, 102, 121, 0.2);
+  border-color: #CF6679;
+  box-shadow: 0 0 16px rgba(207, 102, 121, 0.3);
+}
+
+.proBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.proSpinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+.teamHeaderBlue {
+  background: linear-gradient(135deg, rgba(200, 170, 110, 0.14), rgba(200, 170, 110, 0.04));
+  border-bottom: 1px solid rgba(200, 170, 110, 0.2);
+  color: #C8AA6E;
+}
+
+.teamHeaderRed {
+  background: linear-gradient(135deg, rgba(207, 102, 121, 0.14), rgba(207, 102, 121, 0.04));
+  border-bottom: 1px solid rgba(207, 102, 121, 0.2);
+  color: #CF6679;
+}
+
+/* ── Slot list ── */
+.slotList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Champion slot ── */
+.slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.2s;
+}
+
+.slot:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.slot:last-child {
+  border-bottom: none;
+}
+
+.roleTag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  min-width: 68px;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.addBtn {
+  flex: 1;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px dashed rgba(200, 170, 110, 0.2);
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: rgba(200, 170, 110, 0.35);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.addBtn:hover {
+  border-color: rgba(200, 170, 110, 0.5);
+  color: rgba(200, 170, 110, 0.7);
+  background: rgba(200, 170, 110, 0.06);
+}
+
+.selectedChamp {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(200, 170, 110, 0.22);
+  border-radius: 4px;
+  padding: 7px 10px;
+  min-width: 0;
+}
+
+.champName {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #EAD9BC;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.3px;
+}
+
+.dmgBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.clearBtn {
+  background: none;
+  border: none;
+  color: rgba(200, 170, 110, 0.4);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 2px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.clearBtn:hover {
+  color: #EF9A9A;
+}
+
+/* ── Dropdown ── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 82px;
+  right: 14px;
+  z-index: 100;
+  background: #0D1628;
+  border: 1px solid rgba(200, 170, 110, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(200, 170, 110, 0.08);
+  overflow: hidden;
+}
+
+.searchInput {
+  display: block;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-bottom: 1px solid rgba(200, 170, 110, 0.15);
+  padding: 9px 12px;
+  color: #EAD9BC;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgba(200, 170, 110, 0.3);
+}
+
+.optionList {
+  max-height: 220px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 170, 110, 0.25) transparent;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option:hover {
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.optionName {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #EAD9BC;
+  min-width: 90px;
+  letter-spacing: 0.3px;
+}
+
+.optionBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+
+.optionTraits {
+  font-size: 11px;
+  color: rgba(200, 184, 150, 0.45);
+  letter-spacing: 0.3px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.noResults {
+  padding: 14px 12px;
+  font-size: 13px;
+  color: rgba(200, 170, 110, 0.35);
+  text-align: center;
+}
+
+/* ── VS column ── */
+.vsCol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10rem 0;
+}
+
+.vsText {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: rgba(200, 170, 110, 0.35);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 800px) {
+  .vsText {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 22px;
+  }
+}
+
+/* ── Synergy panel ── */
+.synergyPanel {
+  padding: 14px 16px 16px;
+  border-top: 1px solid rgba(200, 170, 110, 0.1);
+  background: rgba(6, 10, 20, 0.5);
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.scoreCircle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.scoreNum {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.scoreGrade {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.compInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.compLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #EAD9BC;
+  letter-spacing: 0.5px;
+  margin-bottom: 3px;
+}
+
+.comboLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  opacity: 0.85;
+}
+
+.dmgSplit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.dmgDivider {
+  color: rgba(200, 170, 110, 0.3);
+}
+
+/* Score bar */
+.scoreBarWrap {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.scoreBarFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* Breakdown bars */
+.breakdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdownRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bLabel {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: rgba(200, 184, 150, 0.55);
+  width: 106px;
+  flex-shrink: 0;
+}
+
+.bBarWrap {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bBarFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.bVal {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  min-width: 32px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.fillHint {
+  margin-top: 10px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(200, 170, 110, 0.35);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ── Win section ── */
+.winSection {
+  margin-top: 28px;
+  background: linear-gradient(160deg, rgba(18, 26, 44, 0.92), rgba(10, 14, 24, 0.95));
+  border: 1px solid rgba(200, 170, 110, 0.14);
+  border-radius: 8px;
+  padding: 20px 22px;
+}
+
+.winTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(200, 170, 110, 0.6);
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.winBarOuter {
+  display: flex;
+  height: 22px;
+  border-radius: 4px;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.winBarBlue {
+  background: linear-gradient(90deg, #785A28, #C8AA6E);
+  border-radius: 3px 0 0 3px;
+  transition: flex 0.6s ease;
+  min-width: 4px;
+}
+
+.winBarRed {
+  background: linear-gradient(90deg, #A04050, #CF6679);
+  border-radius: 0 3px 3px 0;
+  transition: flex 0.6s ease;
+  min-width: 4px;
+}
+
+.winLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+
+.winLabelBlue {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #C8AA6E;
+  letter-spacing: 1px;
+}
+
+.winLabelRed {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #CF6679;
+  letter-spacing: 1px;
+}
+
+/* Factors */
+.factorList {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.factorRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.factorLabel {
+  color: rgba(200, 184, 150, 0.5);
+}
+
+/* ── Reset ── */
+.resetRow {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.resetBtn {
+  background: transparent;
+  border: 1px solid rgba(200, 170, 110, 0.25);
+  border-radius: 4px;
+  padding: 10px 28px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(200, 170, 110, 0.55);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.resetBtn:hover {
+  background: rgba(200, 170, 110, 0.07);
+  border-color: rgba(200, 170, 110, 0.5);
+  color: #C8AA6E;
+  box-shadow: 0 0 18px rgba(200, 170, 110, 0.15);
+}

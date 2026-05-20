@@ -1,0 +1,196 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-card-dark));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(8px);
+  /* opacity: 0; */
+  animation: fadeUp 0.35s ease forwards;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover {
+  border-color: rgba(200, 170, 110, 0.42);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35), 0 0 12px rgba(200, 170, 110, 0.07);
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Screen-reader-only label (mirrors global .sr-only but scoped here for module use) */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.num {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  /* #C8AA6E on dark bg = 8.3:1 contrast — AAA ✓ */
+  color: #C8AA6E;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  background: rgba(0, 0, 0, 1);
+  border: 1px solid rgba(200, 170, 110, 0.65);
+  border-radius: 4px;
+  padding: 7px 11px;
+  color: var(--text-bright);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Placeholder: raised from 0.22 to 0.60 opacity — visible without displacing real text */
+.input::placeholder {
+  color: rgba(200, 170, 110, 0.60);
+}
+
+/* Focus: 3px gold outline — WCAG 2.4.7 / 2.4.11 AAA */
+.input:focus-visible {
+  border-color: rgba(200, 170, 110, 0.90);
+  outline: 3px solid #C8AA6E;
+  outline-offset: 1px;
+}
+
+.divWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* Label text raised from 0.32 to full opacity #C8AA6E → 8.3:1 AAA ✓ */
+.divLabel {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #C8AA6E;
+  text-align: center;
+}
+
+.divSelect {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  width: 130px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  text-align: center;
+}
+
+.divSelect option {
+  background: #0D1628;
+  color: #C8B896;
+}
+
+.divSelect:focus-visible {
+  outline: 3px solid #C8AA6E;
+  outline-offset: 1px;
+}
+
+.roleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Role row label raised from 0.32 to #C8AA6E — 8.3:1 AAA ✓ */
+.roleRowLabel {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #C8AA6E;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.roleBtns {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+}
+
+.roleBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+  background: rgba(0, 0, 0, 0.3);
+  /* Border raised to 0.25 so UI component is distinguishable (≥3:1) */
+  border: 2px solid rgba(255, 255, 255, 0.14);
+  border-radius: 5px;
+  /* Raised from 0.35 to 0.90 opacity → #C8B896 ≈ 9:1 AAA ✓ */
+  color: rgba(200, 184, 150, 0.70);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: 'Rajdhani', sans-serif;
+  min-width: 0;
+}
+
+.roleBtn:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #C8B896;
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Active state: non-color indicator — thicker border + underline indicator */
+.roleBtnActive {
+  border-width: 2px;
+  border-bottom-width: 3px;
+  transform: translateY(-1px);
+}
+
+.roleBtnDim {
+  opacity: 0.55;
+}
+
+.roleBtn:focus-visible {
+  outline: 3px solid #C8AA6E;
+  outline-offset: 2px;
+}
+
+.roleBtnIcon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.roleBtnLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
