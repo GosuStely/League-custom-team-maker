@@ -3,6 +3,7 @@ import type { Role } from '../types'
 import { ROLES, ROLE_CONFIG } from '../constants/roles'
 import type { Champion } from '../data/champions'
 import { getChampionsForRole } from '../data/champions'
+import { getPool } from '../utils/championPool'
 import {
   calculateTeamSynergy,
   calculateWinProb,
@@ -19,21 +20,27 @@ interface SlotProps {
   champion: Champion | null
   onSelect: (c: Champion) => void
   onClear: () => void
+  playerName: string
+  onPlayerNameChange: (name: string) => void
 }
 
-function ChampionSlot({ role, champion, onSelect, onClear }: SlotProps) {
+function ChampionSlot({ role, champion, onSelect, onClear, playerName, onPlayerNameChange }: SlotProps) {
   const [open, setOpen]     = useState(false)
   const [query, setQuery]   = useState('')
   const inputRef            = useRef<HTMLInputElement>(null)
   const containerRef        = useRef<HTMLDivElement>(null)
   const rc                  = ROLE_CONFIG[role]
 
+  const pool    = playerName.trim() ? getPool(playerName) : []
+  const hasPool = pool.length > 0
+
   const options = useMemo(() => {
-    const list = getChampionsForRole(role)
+    let list = getChampionsForRole(role)
+    if (hasPool) list = list.filter((c) => pool.includes(c.name))
     if (!query.trim()) return list
     const q = query.toLowerCase()
     return list.filter((c) => c.name.toLowerCase().includes(q))
-  }, [role, query])
+  }, [role, query, hasPool, pool])
 
   useEffect(() => {
     if (!open) return
@@ -67,6 +74,7 @@ function ChampionSlot({ role, champion, onSelect, onClear }: SlotProps) {
 
   return (
     <div className={styles.slot} ref={containerRef}>
+      <div className={styles.slotMain}>
       <div className={styles.roleTag} style={{ background: rc.bg, borderColor: `${rc.color}55`, color: rc.color }}>
         <span>{rc.icon}</span>
         <span>{rc.label}</span>
@@ -88,6 +96,19 @@ function ChampionSlot({ role, champion, onSelect, onClear }: SlotProps) {
           + Add Champion
         </button>
       )}
+
+      </div>
+      <div className={styles.slotPlayerRow}>
+        <input
+          className={styles.playerInput}
+          placeholder="Player (optional)…"
+          value={playerName}
+          onChange={(e) => onPlayerNameChange(e.target.value)}
+        />
+        {hasPool && (
+          <span className={styles.poolBadge}>🎯 {pool.length}</span>
+        )}
+      </div>
 
       {open && (
         <div className={styles.dropdown}>
@@ -258,6 +279,8 @@ export default function CompSynergyCalculator() {
   const [redTeam,  setRedTeam]  = useState<TeamState>(emptyTeam)
   const [buildingBlue, setBuildingBlue] = useState(false)
   const [buildingRed,  setBuildingRed]  = useState(false)
+  const [bluePlayerNames, setBluePlayerNames] = useState<Partial<Record<Role, string>>>({})
+  const [redPlayerNames,  setRedPlayerNames]  = useState<Partial<Record<Role, string>>>({})
 
   function setBlueChamp(role: Role, champ: Champion | null) {
     setBlueTeam((prev) => ({ ...prev, [role]: champ }))
@@ -288,6 +311,8 @@ export default function CompSynergyCalculator() {
   function resetAll() {
     setBlueTeam(emptyTeam())
     setRedTeam(emptyTeam())
+    setBluePlayerNames({})
+    setRedPlayerNames({})
   }
 
   return (
@@ -325,6 +350,8 @@ export default function CompSynergyCalculator() {
                 champion={blueTeam[role] ?? null}
                 onSelect={(c) => setBlueChamp(role, c)}
                 onClear={() => setBlueChamp(role, null)}
+                playerName={bluePlayerNames[role] ?? ''}
+                onPlayerNameChange={(name) => setBluePlayerNames((p) => ({ ...p, [role]: name }))}
               />
             ))}
           </div>
@@ -358,6 +385,8 @@ export default function CompSynergyCalculator() {
                 champion={redTeam[role] ?? null}
                 onSelect={(c) => setRedChamp(role, c)}
                 onClear={() => setRedChamp(role, null)}
+                playerName={redPlayerNames[role] ?? ''}
+                onPlayerNameChange={(name) => setRedPlayerNames((p) => ({ ...p, [role]: name }))}
               />
             ))}
           </div>

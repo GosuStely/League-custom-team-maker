@@ -3,6 +3,7 @@ const WIN_STORAGE_KEY = 'liga_win_records'
 export interface WinRecord {
   wins: number
   losses: number
+  displayName: string
 }
 
 type WinStore = Record<string, WinRecord>
@@ -21,8 +22,18 @@ function save(store: WinStore): void {
 
 export function getWinRecord(nickname: string): WinRecord {
   const key = nickname.trim().toLowerCase()
-  if (!key) return { wins: 0, losses: 0 }
-  return load()[key] ?? { wins: 0, losses: 0 }
+  if (!key) return { wins: 0, losses: 0, displayName: nickname }
+  const stored = load()[key]
+  return stored ?? { wins: 0, losses: 0, displayName: nickname }
+}
+
+export function loadAllRecords(): Array<{ key: string } & WinRecord> {
+  return Object.entries(load()).map(([key, rec]) => ({
+    key,
+    wins: rec.wins,
+    losses: rec.losses,
+    displayName: rec.displayName ?? key,
+  }))
 }
 
 export function recordResult(winners: string[], losers: string[]): void {
@@ -30,14 +41,14 @@ export function recordResult(winners: string[], losers: string[]): void {
   for (const n of winners) {
     const key = n.trim().toLowerCase()
     if (!key) continue
-    const rec = store[key] ?? { wins: 0, losses: 0 }
-    store[key] = { wins: rec.wins + 1, losses: rec.losses }
+    const rec = store[key] ?? { wins: 0, losses: 0, displayName: n.trim() }
+    store[key] = { wins: rec.wins + 1, losses: rec.losses, displayName: n.trim() }
   }
   for (const n of losers) {
     const key = n.trim().toLowerCase()
     if (!key) continue
-    const rec = store[key] ?? { wins: 0, losses: 0 }
-    store[key] = { wins: rec.wins, losses: rec.losses + 1 }
+    const rec = store[key] ?? { wins: 0, losses: 0, displayName: n.trim() }
+    store[key] = { wins: rec.wins, losses: rec.losses + 1, displayName: n.trim() }
   }
   save(store)
 }

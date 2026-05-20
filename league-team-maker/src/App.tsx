@@ -8,9 +8,11 @@ import PlayerCard from './components/PlayerCard'
 import Legend from './components/Legend'
 import TeamsSection from './components/TeamsSection'
 import CompSynergyCalculator from './components/CompSynergyCalculator'
+import Leaderboard from './components/Leaderboard'
+import MatchHistory from './components/MatchHistory'
 import styles from './App.module.css'
 
-type AppTab = 'team-maker' | 'synergy'
+type AppTab = 'team-maker' | 'synergy' | 'leaderboard' | 'history'
 
 function createInitialPlayers(): Player[] {
   return Array.from({ length: PLAYER_COUNT }, (_, i) => ({
@@ -32,13 +34,12 @@ export default function App() {
   const [showTextArea, setShowTextArea] = useState<boolean>(false)
   const [segments, setSegments] = useState<string[]>([])
 
-
   const handlePlayerListChange = (text: string) => {
-    const segments = text.split(/joined the lobby/)
-    setSegments(segments)
+    const segs = text.split(/joined the lobby/)
+    setSegments(segs)
     setPlayers((prev) =>
       prev.map((p, i) => {
-        const nickname = (segments[i] ?? '').trim()
+        const nickname = (segs[i] ?? '').trim()
         const profile = lookupPlayer(nickname)
         return {
           ...p,
@@ -96,34 +97,40 @@ export default function App() {
     runGeneration(players.map((p) => ({ ...p, nickname: p.nickname.trim() })))
   }
 
+  const TABS: Array<{ key: AppTab; label: string }> = [
+    { key: 'team-maker',  label: '⚔ Team Maker'    },
+    { key: 'synergy',     label: '⚗️ Comp Synergy'  },
+    { key: 'leaderboard', label: '📊 Leaderboard'   },
+    { key: 'history',     label: '📜 History'        },
+  ]
+
   return (
     <div className={styles.app}>
       <div className={styles.content}>
         <Header />
 
         <div className={styles.tabs}>
-          <button
-            className={`${styles.tab} ${activeTab === 'team-maker' ? styles.tabActive : ''}`}
-            onClick={() => setActiveTab('team-maker')}
-          >
-            ⚔ Team Maker
-          </button>
-          <button
-            className={`${styles.tab} ${activeTab === 'synergy' ? styles.tabActive : ''}`}
-            onClick={() => setActiveTab('synergy')}
-          >
-            ⚗️ Comp Synergy
-          </button>
+          {TABS.map(({ key, label }) => (
+            <button
+              key={key}
+              className={`${styles.tab} ${activeTab === key ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab(key)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
-        {activeTab === 'synergy' && <CompSynergyCalculator />}
+        {activeTab === 'synergy'     && <CompSynergyCalculator />}
+        {activeTab === 'leaderboard' && <Leaderboard />}
+        {activeTab === 'history'     && <MatchHistory />}
 
         {activeTab === 'team-maker' && (
           <>
             {showTextArea ? (
               <div>
                 <textarea onChange={(e) => handlePlayerListChange(e.target.value)} className={styles.joinedLobby} />
-                <input type='text' value={segments.length - 1} className={styles.segmentCount} />
+                <input type='text' value={segments.length - 1 ? 0 : segments.length - 1} className={styles.segmentCount} readOnly />
               </div>
             ) :
               <button onClick={() => setShowTextArea(!showTextArea)} className={styles.btn}>HAHAHAH</button>
@@ -162,6 +169,6 @@ export default function App() {
           </>
         )}
       </div>
-    </div >
+    </div>
   )
 }

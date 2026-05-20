@@ -7,7 +7,6 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   backdrop-filter: blur(8px);
-  /* opacity: 0; */
   animation: fadeUp 0.35s ease forwards;
   transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
@@ -24,7 +23,6 @@
   gap: 10px;
 }
 
-/* Screen-reader-only label (mirrors global .sr-only but scoped here for module use) */
 .srOnly {
   position: absolute;
   width: 1px;
@@ -41,7 +39,6 @@
   font-family: 'Cinzel', serif;
   font-size: 15px;
   font-weight: 700;
-  /* #C8AA6E on dark bg = 8.3:1 contrast — AAA ✓ */
   color: #C8AA6E;
   width: 22px;
   text-align: center;
@@ -64,12 +61,10 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-/* Placeholder: raised from 0.22 to 0.60 opacity — visible without displacing real text */
 .input::placeholder {
   color: rgba(200, 170, 110, 0.60);
 }
 
-/* Focus: 3px gold outline — WCAG 2.4.7 / 2.4.11 AAA */
 .input:focus-visible {
   border-color: rgba(200, 170, 110, 0.90);
   outline: 3px solid #C8AA6E;
@@ -83,7 +78,6 @@
   flex-shrink: 0;
 }
 
-/* Label text raised from 0.32 to full opacity #C8AA6E → 8.3:1 AAA ✓ */
 .divLabel {
   font-size: 9px;
   letter-spacing: 1.5px;
@@ -124,7 +118,6 @@
   gap: 10px;
 }
 
-/* Role row label raised from 0.32 to #C8AA6E — 8.3:1 AAA ✓ */
 .roleRowLabel {
   font-size: 9px;
   letter-spacing: 1.5px;
@@ -149,10 +142,8 @@
   gap: 3px;
   padding: 6px 4px;
   background: rgba(0, 0, 0, 0.3);
-  /* Border raised to 0.25 so UI component is distinguishable (≥3:1) */
   border: 2px solid rgba(255, 255, 255, 0.14);
   border-radius: 5px;
-  /* Raised from 0.35 to 0.90 opacity → #C8B896 ≈ 9:1 AAA ✓ */
   color: rgba(200, 184, 150, 0.70);
   cursor: pointer;
   transition: all 0.18s ease;
@@ -167,7 +158,6 @@
   transform: translateY(-1px);
 }
 
-/* Active state: non-color indicator — thicker border + underline indicator */
 .roleBtnActive {
   border-width: 2px;
   border-bottom-width: 3px;
@@ -193,4 +183,171 @@
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+}
+
+.poolSection {
+  margin-top: 2px;
+  border-top: 1px solid rgba(200, 170, 110, 0.1);
+  padding-top: 6px;
+}
+
+.poolToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+  width: 100%;
+  text-align: left;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(200, 170, 110, 0.45);
+  transition: color 0.2s;
+}
+
+.poolToggle:hover {
+  color: rgba(200, 170, 110, 0.75);
+}
+
+.poolCount {
+  background: rgba(200, 170, 110, 0.15);
+  color: #C8AA6E;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.poolChevron {
+  margin-left: auto;
+  font-size: 9px;
+  opacity: 0.5;
+}
+
+.poolBody {
+  margin-top: 8px;
+  position: relative;
+}
+
+.poolTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 8px;
+  min-height: 24px;
+}
+
+.poolTag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(200, 170, 110, 0.1);
+  border: 1px solid rgba(200, 170, 110, 0.3);
+  border-radius: 4px;
+  padding: 2px 6px 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #C8AA6E;
+  letter-spacing: 0.3px;
+}
+
+.poolTagRemove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(200, 170, 110, 0.5);
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.poolTagRemove:hover {
+  color: #EF9A9A;
+}
+
+.poolEmpty {
+  font-size: 11px;
+  color: rgba(200, 184, 150, 0.25);
+  letter-spacing: 0.5px;
+  font-style: italic;
+}
+
+.poolAdd {
+  position: relative;
+}
+
+.poolSearch {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(200, 170, 110, 0.2);
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #EAD9BC;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.poolSearch::placeholder {
+  color: rgba(200, 170, 110, 0.25);
+}
+
+.poolSearch:focus {
+  border-color: rgba(200, 170, 110, 0.45);
+}
+
+.poolDropdown {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: #0D1628;
+  border: 1px solid rgba(200, 170, 110, 0.28);
+  border-radius: 5px;
+  max-height: 160px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 170, 110, 0.2) transparent;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+}
+
+.poolOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  text-align: left;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: #EAD9BC;
+  transition: background 0.12s;
+  letter-spacing: 0.3px;
+}
+
+.poolOption:last-child {
+  border-bottom: none;
+}
+
+.poolOption:hover {
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.poolOptionRole {
+  font-size: 10px;
+  color: rgba(200, 184, 150, 0.35);
+  font-weight: 400;
+  letter-spacing: 0.3px;
 }

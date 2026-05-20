@@ -1,0 +1,152 @@
+.wrap {
+  padding-bottom: 60px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(200, 170, 110, 0.14);
+  background: linear-gradient(160deg, rgba(18, 26, 44, 0.92), rgba(10, 14, 24, 0.95));
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 420px;
+}
+
+.table thead tr {
+  border-bottom: 1px solid rgba(200, 170, 110, 0.18);
+}
+
+.th {
+  padding: 12px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(200, 170, 110, 0.45);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.th:hover {
+  color: #C8AA6E;
+}
+
+.thActive {
+  color: #C8AA6E;
+}
+
+.thName {
+  width: 100%;
+}
+
+.row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s;
+  position: relative;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: rgba(200, 170, 110, 0.04);
+}
+
+.rowTop:nth-child(1) { background: rgba(200, 170, 110, 0.07); }
+.rowTop:nth-child(2) { background: rgba(200, 170, 110, 0.04); }
+.rowTop:nth-child(3) { background: rgba(200, 170, 110, 0.02); }
+
+.tdRank {
+  padding: 12px 16px;
+  font-size: 16px;
+  text-align: center;
+  width: 48px;
+}
+
+.rankNum {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  color: rgba(200, 184, 150, 0.35);
+}
+
+.tdName {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #EAD9BC;
+  letter-spacing: 0.4px;
+  position: relative;
+}
+
+.topGlow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #C8AA6E, transparent);
+  border-radius: 0 2px 2px 0;
+}
+
+.tdNum {
+  padding: 12px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  color: rgba(200, 184, 150, 0.55);
+}
+
+.tdWr {
+  padding: 12px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tdStreak {
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.emptyText {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200, 170, 110, 0.5);
+  margin-bottom: 8px;
+}
+
+.emptySub {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(200, 184, 150, 0.3);
+}

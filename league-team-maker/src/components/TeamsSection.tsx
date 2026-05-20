@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { Team } from '../types'
 import { recordResult } from '../utils/winTracker'
+import { saveMatch } from '../utils/matchHistory'
 import TeamCard from './TeamCard'
 import styles from './TeamsSection.module.css'
 
@@ -20,9 +21,18 @@ export default function TeamsSection({ teams, revealKey, onShuffle }: Props) {
   function handleMarkWinner(side: 'blue' | 'red') {
     if (winner !== null) return
     const [blue, red] = teams
-    const winners = (side === 'blue' ? blue : red).map((s) => s.nickname)
-    const losers  = (side === 'blue' ? red : blue).map((s) => s.nickname)
-    recordResult(winners, losers)
+
+    recordResult(
+      (side === 'blue' ? blue : red).map((s) => s.nickname),
+      (side === 'blue' ? red : blue).map((s) => s.nickname),
+    )
+
+    saveMatch({
+      winner: side,
+      blue: blue.map((s) => ({ nickname: s.nickname, role: s.role, division: s.division })),
+      red:  red.map((s) => ({ nickname: s.nickname, role: s.role, division: s.division })),
+    })
+
     setWinner(side)
   }
 

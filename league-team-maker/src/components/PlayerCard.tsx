@@ -1,5 +1,8 @@
+import { useState, useRef, useEffect, useMemo } from 'react'
 import type { Player, Role } from '../types'
 import { ROLES, ROLE_CONFIG, DIVISIONS, DIVISION_CONFIG } from '../constants/roles'
+import { CHAMPIONS } from '../data/champions'
+import { getPool, savePool } from '../utils/championPool'
 import styles from './PlayerCard.module.css'
 
 interface Props {
@@ -14,14 +17,62 @@ interface Props {
 }
 
 export default function PlayerCard({ player, index, onChange, onNicknameBlur }: Props) {
-  const divCfg = DIVISION_CONFIG[player.division]
-  const nameId = `player-${player.id}-name`
-  const divId = `player-${player.id}-division`
+  const divCfg  = DIVISION_CONFIG[player.division]
+  const nameId  = `player-${player.id}-name`
+  const divId   = `player-${player.id}-division`
+  const [poolOpen,  setPoolOpen]  = useState(false)
+  const [poolQuery, setPoolQuery] = useState('')
+  const [pool, setPool]           = useState<string[]>(() => getPool(player.nickname))
+  const poolInputRef              = useRef<HTMLInputElement>(null)
+  const poolContainerRef          = useRef<HTMLDivElement>(null)
+  const [dropOpen, setDropOpen]   = useState(false)
+
+  useEffect(() => {
+    setPool(getPool(player.nickname))
+  }, [player.nickname])
+
+  useEffect(() => {
+    if (!dropOpen) return
+    function handler(e: MouseEvent) {
+      if (poolContainerRef.current && !poolContainerRef.current.contains(e.target as Node)) {
+        setDropOpen(false)
+        setPoolQuery('')
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [dropOpen])
+
+  const filteredChamps = useMemo(() => {
+    const q = poolQuery.toLowerCase()
+    return CHAMPIONS.filter(
+      (c) => c.name.toLowerCase().includes(q) && !pool.includes(c.name),
+    ).slice(0, 40)
+  }, [poolQuery, pool])
+
+  function addToPool(name: string) {
+    const next = [...pool, name]
+    setPool(next)
+    savePool(player.nickname, next)
+    setPoolQuery('')
+    poolInputRef.current?.focus()
+  }
+
+  function removeFromPool(name: string) {
+    const next = pool.filter((n) => n !== name)
+    setPool(next)
+    savePool(player.nickname, next)
+  }
+
+  function openDrop() {
+    setDropOpen(true)
+    setPoolQuery('')
+    setTimeout(() => poolInputRef.current?.focus(), 0)
+  }
 
   return (
     <div className={styles.card} style={{ animationDelay: `${index * 0.05}s` }}>
 
-      {/* Row 1: number · nickname · division */}
       <div className={styles.topRow}>
         <span className={styles.num} aria-hidden="true">{index + 1}</span>
 
@@ -58,7 +109,6 @@ export default function PlayerCard({ player, index, onChange, onNicknameBlur }: 
         </div>
       </div>
 
-      {/* Row 2: main role buttons */}
       <RoleButtonRow
         label="Main"
         playerId={player.id}
@@ -67,7 +117,6 @@ export default function PlayerCard({ player, index, onChange, onNicknameBlur }: 
         onSelect={(r) => onChange(player.id, 'mainRole', r)}
       />
 
-      {/* Row 3: secondary role buttons */}
       <RoleButtonRow
         label="Fill"
         playerId={player.id}
@@ -76,6 +125,68 @@ export default function PlayerCard({ player, index, onChange, onNicknameBlur }: 
         onSelect={(r) => onChange(player.id, 'secondaryRole', r)}
         dim
       />
+
+      <div className={styles.poolSection}>
+        <button
+          className={styles.poolToggle}
+          onClick={() => setPoolOpen((p) => !p)}
+          type="button"
+        >
+          <span>🎯 Champion Pool</span>
+          {pool.length > 0 && <span className={styles.poolCount}>{pool.length}</span>}
+          <span className={styles.poolChevron}>{poolOpen ? '▲' : '▼'}</span>
+        </button>
+
+        {poolOpen && (
+          <div className={styles.poolBody} ref={poolContainerRef}>
+            <div className={styles.poolTags}>
+              {pool.map((name) => (
+                <span key={name} className={styles.poolTag}>
+                  {name}
+                  <button
+                    className={styles.poolTagRemove}
+                    onClick={() => removeFromPool(name)}
+                    type="button"
+                    aria-label={`Remove ${name}`}
+                  >×</button>
+                </span>
+              ))}
+              {pool.length === 0 && (
+                <span className={styles.poolEmpty}>No champions added yet</span>
+              )}
+            </div>
+
+            <div className={styles.poolAdd}>
+              <input
+                ref={poolInputRef}
+                className={styles.poolSearch}
+                placeholder="Search champion…"
+                value={poolQuery}
+                onChange={(e) => setPoolQuery(e.target.value)}
+                onFocus={openDrop}
+              />
+              {dropOpen && filteredChamps.length > 0 && (
+                <div className={styles.poolDropdown}>
+                  {filteredChamps.map((c) => (
+                    <button
+                      key={c.name}
+                      className={styles.poolOption}
+                      onMouseDown={(e) => { e.preventDefault(); addToPool(c.name) }}
+                      type="button"
+                    >
+                      {c.name}
+                      <span className={styles.poolOptionRole}>
+                        {c.roles.join(' · ')}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
     </div>
   )
 }
@@ -100,7 +211,7 @@ function RoleButtonRow({ label, playerId, playerIndex, selected, onSelect, dim =
         aria-label={`${label} role for summoner ${playerIndex + 1}`}
       >
         {ROLES.map((r) => {
-          const cfg = ROLE_CONFIG[r]
+          const cfg    = ROLE_CONFIG[r]
           const active = selected === r
           return (
             <button

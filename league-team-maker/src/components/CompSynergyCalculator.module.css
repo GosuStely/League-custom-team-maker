@@ -156,11 +156,56 @@
 .slot {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
+  flex-direction: column;
+  padding: 8px 14px 4px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   transition: background 0.2s;
+}
+
+.slotMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slotPlayerRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0 2px 0;
+  margin-left: 78px;
+}
+
+.playerInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(200, 170, 110, 0.12);
+  padding: 2px 4px;
+  color: rgba(200, 184, 150, 0.45);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  outline: none;
+  letter-spacing: 0.3px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.playerInput:focus {
+  border-bottom-color: rgba(200, 170, 110, 0.35);
+  color: rgba(200, 184, 150, 0.75);
+}
+
+.playerInput::placeholder {
+  color: rgba(200, 184, 150, 0.18);
+}
+
+.poolBadge {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(200, 170, 110, 0.55);
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
 }
 
 .slot:hover {
