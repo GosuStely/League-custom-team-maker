@@ -7,6 +7,7 @@ import styles from './TeamCard.module.css'
 interface Props {
   team: Team
   side: 'blue' | 'red'
+  resultRecorded?: boolean
 }
 
 function avgScoreToLabel(avg: number): string {
@@ -19,7 +20,7 @@ function avgScoreToLabel(avg: number): string {
   return closest
 }
 
-export default function TeamCard({ team, side }: Props) {
+export default function TeamCard({ team, side, resultRecorded }: Props) {
   const isBlue = side === 'blue'
   const avg    = teamAvgScore(team)
   const label  = avgScoreToLabel(avg)
@@ -42,7 +43,7 @@ export default function TeamCard({ team, side }: Props) {
 
       <div className={styles.body}>
         {team.map((slot, i) => (
-          <PlayerRow key={slot.role} slot={slot} index={i} />
+          <PlayerRow key={slot.role} slot={slot} index={i} resultRecorded={resultRecorded} />
         ))}
       </div>
     </div>
